@@ -11,8 +11,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import *
 
 
-#sample_suBmission is a result (id of product and prediction of future sales)
-df_oil_price = pd.read_csv('C:\\Users\\SberUser\\PycharmProjects\\data_science\\data_sc-env\\Include\\oil.csv') # parse dates# по убрал парсинг дат parse_dates=['date'],infer_datetime_format=True
+#Adding data
+df_oil_price = pd.read_csv('C:\\Users\\SberUser\\PycharmProjects\\data_science\\data_sc-env\\Include\\oil.csv') # optional  parse_dates=['date'],infer_datetime_format=True
 df_sales_test = pd.read_csv('C:\\Users\\SberUser\\PycharmProjects\\data_science\\data_sc-env\\Include\\test.csv') #onpromotion- number of goods
 df_sales_train = pd.read_csv('C:\\Users\\SberUser\\PycharmProjects\\data_science\\data_sc-env\\Include\\train.csv.zip')#the same as test set but with sales
 stores = pd.read_csv('C:\\Users\\SberUser\\PycharmProjects\\data_science\\data_sc-env\\Include\\stores.csv')
@@ -27,10 +27,10 @@ oil = oil.fillna(method = 'bfill')
 oil.set_index('date', inplace = True)
 
 # MERGING ALL SETS / filling NaN values
-train_data_oil = pd.merge(df_sales_train, oil, on = "date", how = 'left') # мерджим цену на масло с тренировочным сетом по продажам (через дату)
-train_data_oil = train_data_oil.fillna(method = 'pad') # заполняем пустые ячейки (метода заполняет пустое значение в строе предыдущим значением (bfill) если последющим то (ffill) можно установить лимит на количество заполнений
+train_data_oil = pd.merge(df_sales_train, oil, on = "date", how = 'left') # adding oil prices
+train_data_oil = train_data_oil.fillna(method = 'pad') # filling NaN with (bfill) backfill 
 
-test_data_oil = pd.merge(df_sales_test, oil, on = "date", how = 'left') # merge c цены на масло с тестовым сетом по продажам (так же через дату)
+test_data_oil = pd.merge(df_sales_test, oil, on = "date", how = 'left') 
 test_data_oil = test_data_oil.fillna(method = 'pad')
 
 train_data_oil_holiday = pd.merge(train_data_oil, df_holidays, on = "date", how = 'left')
